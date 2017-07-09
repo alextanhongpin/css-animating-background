@@ -1,0 +1,97 @@
+<html>
+    <head>
+        <title>Clock</title>
+        <style>
+
+            main {
+                perspective: 1500px;
+            }
+            :root {
+                --name: #8844FF;
+            }
+
+            #clock {
+                height: 400px;
+                width: 400px;
+                background: rgba(0, 0, 255, .4);
+                border-radius: 50%;
+                transform: rotateX(30deg) rotateY(30deg) rotateZ(30deg);
+                perspective: 1000px;
+            }
+
+            #clock-face {
+                height: 400px;
+                width: 400px;
+                background: var(--name);
+                border-radius: 50%;
+                position: relative;
+                transform: scale(.8) translate3d(10px, -80px, 100px) rotateZ(30deg);
+                animation: rotate 60s infinite steps(120);
+            }
+
+            #clock-hand {
+                height: 50px;
+                width: 50px;
+                top: 200px;
+                left: 200px;
+                margin-top: -25px;
+                margin-left: -25px;
+                background: rgba(255, 255, 255, .2);
+                border-radius: 50%;
+
+                position: absolute;
+                transform: translate3d(-10px, -10px, -100px);
+                perspective: 1000px;
+                border-top: 5px solid #8888FF;
+            }
+
+
+            @keyframes rotate {
+                100% {
+                    transform: rotateZ(360deg) scale(.8) translate3d(10px, -80px, 100px);
+                }
+            }
+            
+            .gear {
+                position: absolute;
+                height: 50px;
+                width: 50px;
+                background: var(--name);
+                transform-origin: center center;
+                margin-left: -25px;
+                margin-top: -25px;
+                border-radius: 3px;
+            }
+        </style>
+    </head>
+    <body>
+        
+        <main>
+            <div id="clock">
+                <div id="clock-face">
+                    <div id="gears"></div>
+                    <div id="clock-hand"></div>
+                </div>
+
+            </div>
+        </main>
+        <script>
+
+            const gears = document.getElementById('gears')
+
+            Array(12).fill(0).map((_, n) => {
+                const i = n 
+                const div = document.createElement('div')
+                div.className = 'gear'
+                const ninetyDeg = Math.PI * 2
+                const x = Math.cos(ninetyDeg * i / 12) * 200 + 200
+                const y = Math.sin(ninetyDeg * i / 12) * 200 + 200
+                // console.log(x, y)
+                div.style.transform = `translate3d(${x}px, ${y}px, 0) rotateZ(${i / 12 * 360}deg)`
+                // div.textContent = i
+                gears.appendChild(div)
+            })
+        
+        </script>
+    </body>
+</html>
